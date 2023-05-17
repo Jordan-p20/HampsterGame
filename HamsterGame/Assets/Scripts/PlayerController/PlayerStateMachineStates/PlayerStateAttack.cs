@@ -6,9 +6,8 @@ public class PlayerStateAttack : PlayerState
 {
     private float animLength;
     private float elapsedTime = 0f;
-    private int combo = 0;
+    private int combo = 1;
     private const int maxCombo = 3;
-
 
     public override void OnStateEnter()
     {
@@ -37,9 +36,11 @@ public class PlayerStateAttack : PlayerState
 
         if (elapsedTime >= animLength * 0.75f && combo < maxCombo && PlayerManager.playerControllerInput.attackPressed)
         {
+            Debug.Log(combo);
             elapsedTime= 0f;
             combo++;
             anim.CrossFade("Attack", 0.1f, 0, 0);
+
         }
     }
 }

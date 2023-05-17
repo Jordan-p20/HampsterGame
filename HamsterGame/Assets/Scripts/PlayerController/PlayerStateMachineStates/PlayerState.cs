@@ -26,6 +26,7 @@ public abstract class PlayerState
         animLengths = SMData.dataAnimLengths;
     }
 
+    //called when creating a new state to initialize references, overload with the previous states horizontal movement
     public virtual void Initialize(PlayerStateMachineData SMData, Vector3 previousStateHorMotion)
     {
         controller = SMData.dataCharaController;
@@ -35,6 +36,7 @@ public abstract class PlayerState
         animLengths = SMData.dataAnimLengths;
     }
 
+    //called when creating a new state to initialize references, overload with the previous states horiontal and vertical movement
     public virtual void Initialize(PlayerStateMachineData SMData, Vector3 previousStateHorMotion, Vector3 previousStateVertMotion)
     {
         controller = SMData.dataCharaController;

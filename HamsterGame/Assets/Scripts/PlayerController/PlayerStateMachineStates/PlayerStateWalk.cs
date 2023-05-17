@@ -1,4 +1,5 @@
 //player state that deals with walking, running, and idling
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerStateWalk : PlayerState
@@ -47,6 +48,7 @@ public class PlayerStateWalk : PlayerState
         TransitionCheck();
     }
 
+    //returns the motion of the character given inputs
     private Vector3 GetMotion()
     {
         UpdateVerticalMotion();
@@ -54,6 +56,7 @@ public class PlayerStateWalk : PlayerState
         return (horizontalMotion + verticalMotion) * Time.deltaTime;
     }
 
+    //updates the horizontal (x,z) axis movement 
     private void UpdateHorizontalMotion()
     {
         Vector2 moveInput = PlayerManager.playerControllerInput.moveInput;
@@ -61,14 +64,27 @@ public class PlayerStateWalk : PlayerState
 
         Vector3 right = PlayerManager.playerCameraMovement.GetDirectionVector(CamDirection.RIGHT);
 
+
         horizontalMotion = (((forward * moveInput.y) + (right * moveInput.x)).normalized * playerSpeed);
 
-        SetAnimatorMotionParameters(horizontalMotion);
+        RaycastHit floorHitInfo;
+        
+        if (Physics.Raycast(controller.transform.position + Vector3.up * 0.1f, Vector3.down, out floorHitInfo, 0.15f))//slope checking and movement alignment to slope
+        {
+            horizontalMotion = Vector3.ProjectOnPlane(horizontalMotion, floorHitInfo.normal).normalized * playerSpeed;
+        }
 
-        SetBodyDirection(moveInput);
+        //debugstuff
+        //Debug.DrawRay(controller.transform.position + Vector3.up * 0.1f, Vector3.down * 0.15f, Color.blue, 0.1f);//downwards slope checking ray drawer
+        //Debug.DrawRay(controller.transform.position + Vector3.up, horizontalMotion.normalized, Color.red, 0.1f);//movement vector ray drawer
+
+
+        SetAnimatorMotionParameters(horizontalMotion);//set animation parameters for locomotion animations
+        SetBodyDirection(moveInput);//set what direction the body should be facing
 
     }
 
+    //sets which direction the body faces
     private void SetBodyDirection(Vector3 motion)
     {
         if (motion.magnitude > 0)//moving horizontally
@@ -85,6 +101,7 @@ public class PlayerStateWalk : PlayerState
 
     }
 
+    //sets the animation parameters given the input
     private void SetAnimatorMotionParameters(Vector3 motion)
     {
         if (playerSpeed == RUN_SPEED && motion.magnitude > 0)
@@ -101,6 +118,7 @@ public class PlayerStateWalk : PlayerState
         }
     }
 
+    //updates the vertical (y) axis movement
     private void UpdateVerticalMotion()
     {
         verticalMotion += Vector3.up * GRAVITY * Time.deltaTime;
@@ -108,7 +126,7 @@ public class PlayerStateWalk : PlayerState
 
         if (controller.isGrounded)
         {
-            verticalMotion = Vector3.up * GRAVITY * 0.05f;
+            verticalMotion = Vector3.up * GRAVITY * 0.1f;
         }
     }
 

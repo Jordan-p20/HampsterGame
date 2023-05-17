@@ -69,6 +69,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
     }
 
 
+    //transitions from one state to another
     public void TransitionState(PlayerStates newState)
     {
         Debug.Log("TRANSITIONING TO " + newState);
@@ -109,9 +110,15 @@ public class PlayerControllerStateMachine : MonoBehaviour
         curPlayerState.OnStateEnter();//call enter on new state
     }
 
+    //returns a struct of references states might need to be initialized with
     public PlayerStateMachineData GetSMData()
     {
         return new PlayerStateMachineData(SMCharaController, SMCharacterAnimator, playerBody, this, animTableLengths);
+    }
+
+    public PlayerStates GetCurrentState()
+    {
+        return curPlayerStateFlag;
     }
 
     public void OnDrawGizmos()

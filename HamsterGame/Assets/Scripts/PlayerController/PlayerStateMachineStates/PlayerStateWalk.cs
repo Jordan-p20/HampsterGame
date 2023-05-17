@@ -121,7 +121,7 @@ public class PlayerStateWalk : PlayerState
         }
 
         //attacking
-        if (PlayerManager.playerControllerInput.attackPressed)
+        if (PlayerManager.playerControllerInput.attackPressed && controller.isGrounded)
         {
             SM.TransitionState(PlayerStates.ATTACK);
             return;

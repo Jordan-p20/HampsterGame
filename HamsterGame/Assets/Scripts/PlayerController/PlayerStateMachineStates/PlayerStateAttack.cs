@@ -6,7 +6,8 @@ public class PlayerStateAttack : PlayerState
 {
     private float animLength;
     private float elapsedTime = 0f;
-    private int cambo = 0;
+    private int combo = 0;
+    private const int maxCombo = 3;
 
 
     public override void OnStateEnter()
@@ -32,6 +33,13 @@ public class PlayerStateAttack : PlayerState
         if (elapsedTime >= animLength)
         {
             SM.TransitionState(PlayerStates.WALK);
+        }
+
+        if (elapsedTime >= animLength * 0.75f && combo < maxCombo && PlayerManager.playerControllerInput.attackPressed)
+        {
+            elapsedTime= 0f;
+            combo++;
+            anim.CrossFade("Attack", 0.1f, 0, 0);
         }
     }
 }

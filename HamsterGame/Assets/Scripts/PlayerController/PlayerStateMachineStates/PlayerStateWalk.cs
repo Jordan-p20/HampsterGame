@@ -126,7 +126,7 @@ public class PlayerStateWalk : PlayerState
 
         if (controller.isGrounded)
         {
-            verticalMotion = Vector3.up * GRAVITY * 0.1f;
+            verticalMotion = Vector3.up * GRAVITY * 0.20f;
         }
     }
 

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static PlayerManager instance;
-    public static Transform playerTransform { private set; get; }
-    public static PlayerControllerInput playerControllerInput { private set; get; } 
-    public static PlayerControllerCameraMovement playerCameraMovement { private set; get; }
+    public static PlayerManager instance;//singleton of player manager
+    public static Transform playerTransform { private set; get; }//players transform
+    public static PlayerControllerInput playerControllerInput { private set; get; } // players input component
+    public static PlayerControllerCameraMovement playerCameraMovement { private set; get; }//players camera movement component
 
-    public static Animator playerAnimator { private set; get; }
+    public static Animator playerAnimator { private set; get; }//players animator
 
     private void Awake()
     {

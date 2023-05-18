@@ -32,6 +32,8 @@ public class PlayerControllerInput : MonoBehaviour
 
     private bool leftMousePressed = false;
 
+    public bool middleMousePressed = false;
+
     public void Update()
     {
         GetMouseInput();
@@ -48,6 +50,8 @@ public class PlayerControllerInput : MonoBehaviour
     private void getMouseButtonInputs()
     {
         leftMousePressed = Input.GetMouseButton(0);
+        middleMousePressed= Input.GetMouseButtonDown(2);
+        
     }
 
     private void GetMovementInput()

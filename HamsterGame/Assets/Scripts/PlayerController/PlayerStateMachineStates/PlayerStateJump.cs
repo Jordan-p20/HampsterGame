@@ -14,7 +14,7 @@ public class PlayerStateJump : PlayerState
     {
         anim.SetBool("Jump", true);
         verticalMotion = Vector3.up * JUMP_SPEED;
-        jumpAnimLength = (float)animLengths["RunningJump"];
+        jumpAnimLength = (float)animLengths["RunningJump"] * 0.85f;
     }
 
     public override void OnStateExit()

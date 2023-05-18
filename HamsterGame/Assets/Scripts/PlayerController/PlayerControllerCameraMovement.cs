@@ -100,46 +100,54 @@ public class PlayerControllerCameraMovement : MonoBehaviour
     //finds the target that is the closest to where the player is looking
     private Transform FindLockOnTarget()
     {
+        List<ColliderValueStorage> colliders = GetEligibleTargets();
         
+        return FindBestEligibleTarget(colliders);
+    }
 
-        Collider[] castHits = Physics.OverlapSphere(transform.position, lockOnRange);
-        Debug.Log("# of colliders found " + castHits.Length);
-        List<ColliderValueStorage> colliderValues = new List<ColliderValueStorage>();
-        Debug.Log(castHits);
-        foreach (Collider hit in castHits) {
-            
-
-            if (!hit.gameObject.CompareTag("Enemy")) { continue; }
-
-            Vector3 directionToHit = hit.transform.position - transform.position;
-            float angleToHit = Vector3.Dot(actualCamera.forward, directionToHit.normalized);
-            if (angleToHit < 0) { continue; }
-
-            RaycastHit rayHitInfo;
-            Physics.Raycast(transform.position, directionToHit, out rayHitInfo, lockOnRange);
-
-            if (!rayHitInfo.collider.gameObject.CompareTag("Enemy")) { continue; }
-
-            colliderValues.Add(new ColliderValueStorage(hit.transform.GetComponent<EnemyTestScript>().lockOnTransform, angleToHit));
-        }
-
-        Debug.Log("# eligable targets " + colliderValues.Count);
-
+    //selects a target from a list of possible targets based on how close they are to where the player is looking
+    private Transform FindBestEligibleTarget(List<ColliderValueStorage> colliders)
+    {
         Transform returnTransform = null;
-        float bestValue = lockOnRange;
-        foreach (ColliderValueStorage storage in colliderValues)
+        float bestValue = 0;
+        foreach (ColliderValueStorage storage in colliders)
         {
-            if (storage.value < bestValue)
+            if (storage.value > bestValue)
             {
-                bestValue= storage.value;
+                bestValue = storage.value;
                 returnTransform = storage.trans;
             }
         }
 
-        Debug.Log("Best values name " + returnTransform.name);
-        Debug.Log("best value found for lock on " + bestValue);
-        return returnTransform;
+        return returnTransform.GetComponent<EnemyTestScript>().lockOnTransform;
     }
+
+    //creates a list of all objects that could be the intended lock on target
+    private List<ColliderValueStorage> GetEligibleTargets()
+    {
+        Collider[] castHits = Physics.OverlapSphere(transform.position, lockOnRange);
+        List<ColliderValueStorage> colliderValues = new List<ColliderValueStorage>();
+
+        foreach (Collider hit in castHits)
+        {
+            if (!hit.gameObject.CompareTag("Enemy")) { continue; }
+
+            Vector3 directionToHit = (hit.transform.position - transform.position).normalized;
+            float angleToHit = Vector3.Dot(actualCamera.forward, directionToHit);
+            if (angleToHit < 0) { continue; }
+
+            RaycastHit rayHitInfo;
+            Physics.Raycast(transform.position, directionToHit, out rayHitInfo, lockOnRange);
+            //Debug.DrawRay(transform.position, directionToHit * 15, Color.red, 10f);
+
+            if (!rayHitInfo.collider.gameObject.CompareTag("Enemy")) { continue; }
+
+            colliderValues.Add(new ColliderValueStorage(hit.transform, angleToHit));
+        }
+
+        return colliderValues;
+    }
+
 
     //returns a Vector of what the camLocation direction is
     public Vector3 GetDirectionVector(CamDirection direction)

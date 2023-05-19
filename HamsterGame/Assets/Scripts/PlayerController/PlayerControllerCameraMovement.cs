@@ -64,7 +64,18 @@ public class PlayerControllerCameraMovement : MonoBehaviour
     //checks if the player is trying to unlock/lock on to a target, and resolves that input
     private void LockOnTargetCheck()
     {
-        
+        //if target is too far
+        if (lockedOn && TooFarFromTarget())
+        {
+            SetLockOnTarget(null);
+            if (lockedOnComponent)
+            {
+                lockedOnComponent.UnLockOn();
+                lockedOnComponent = null;
+            }
+            lockedOn = false;
+            return;
+        }
 
         //if player has not pressed middle return
         if (!PlayerManager.playerControllerInput.middleMousePressed) { return; }
@@ -102,15 +113,6 @@ public class PlayerControllerCameraMovement : MonoBehaviour
                 lockedOnComponent.UnLockOn();
                 lockedOnComponent= null;
             }
-        }
-
-
-        //if target is too far
-        if (lockedOn && TooFarFromTarget())
-        {
-            SetLockOnTarget(null);
-            lockedOn = false;
-            return;
         }
     }
 

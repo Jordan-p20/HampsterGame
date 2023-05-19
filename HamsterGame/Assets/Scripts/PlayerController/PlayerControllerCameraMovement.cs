@@ -67,13 +67,7 @@ public class PlayerControllerCameraMovement : MonoBehaviour
         //if target is too far
         if (lockedOn && TooFarFromTarget())
         {
-            SetLockOnTarget(null);
-            if (lockedOnComponent)
-            {
-                lockedOnComponent.UnLockOn();
-                lockedOnComponent = null;
-            }
-            lockedOn = false;
+            ResetLockOnValues();
             return;
         }
 
@@ -93,27 +87,24 @@ public class PlayerControllerCameraMovement : MonoBehaviour
             }
             else
             {
-                lockedOn = false;
-                lockedOnTarget = null;
-                if (lockedOnComponent != null)
-                {
-                    lockedOnComponent.UnLockOn();
-                    lockedOnComponent = null;
-                }
-                
-
+                ResetLockOnValues();
             }
         }
         else
         {
-            lockedOn = false;
-            lockedOnTarget = null;
-            if (lockedOnComponent != null)
-            {
-                lockedOnComponent.UnLockOn();
-                lockedOnComponent= null;
-            }
+            ResetLockOnValues();
         }
+    }
+
+    private void ResetLockOnValues()
+    {
+        SetLockOnTarget(null);
+        if (lockedOnComponent)
+        {
+            lockedOnComponent.UnLockOn();
+            lockedOnComponent = null;
+        }
+        lockedOn = false;
     }
 
     //finds the target that is the closest to where the player is looking

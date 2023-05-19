@@ -26,6 +26,8 @@ public class PlayerControllerCameraMovement : MonoBehaviour
 
     private Transform actualCamera;
 
+    [SerializeField] private LockOnTarget lockedOnComponent;
+
     private void Start()
     {
         camLocomotion = PlayerManager.playerTransform.GetChild(1);
@@ -74,17 +76,32 @@ public class PlayerControllerCameraMovement : MonoBehaviour
             {
                 lockedOn = true;
                 lockOnTargetOriginalPosition = lockedOnTarget.localPosition;
+                lockedOnComponent = lockedOnTarget.parent.GetComponent<LockOnTarget>();
+                lockedOnComponent.LockOn();
+                
             }
             else
             {
                 lockedOn = false;
                 lockedOnTarget = null;
+                if (lockedOnComponent != null)
+                {
+                    lockedOnComponent.UnLockOn();
+                    lockedOnComponent = null;
+                }
+                
+
             }
         }
         else
         {
             lockedOn = false;
             lockedOnTarget = null;
+            if (lockedOnComponent != null)
+            {
+                lockedOnComponent.UnLockOn();
+                lockedOnComponent= null;
+            }
         }
 
 
@@ -119,7 +136,7 @@ public class PlayerControllerCameraMovement : MonoBehaviour
             }
         }
 
-        return returnTransform.GetComponent<EnemyTestScript>().lockOnTransform;
+        return returnTransform.GetComponent<LockOnTarget>().GetLockOnTransform();
     }
 
     //creates a list of all objects that could be the intended lock on target

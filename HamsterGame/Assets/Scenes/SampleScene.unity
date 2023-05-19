@@ -1698,6 +1698,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyTestPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 4560870094297986095, guid: e698526895ce5884a83b677d78188b38,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567461582422148412, guid: e698526895ce5884a83b677d78188b38,
+        type: 3}
+      propertyPath: degreesPerSecond
+      value: 360
+      objectReference: {fileID: 0}
     - target: {fileID: 5884864522763100301, guid: e698526895ce5884a83b677d78188b38,
         type: 3}
       propertyPath: m_RootOrder

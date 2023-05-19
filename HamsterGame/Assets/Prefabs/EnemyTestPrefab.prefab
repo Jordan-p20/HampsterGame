@@ -94,8 +94,8 @@ GameObject:
   - component: {fileID: 6131973631734758873}
   - component: {fileID: 1360496912682810072}
   - component: {fileID: 4814428872349861499}
-  - component: {fileID: 4560870094297986095}
   - component: {fileID: 4433144926488058547}
+  - component: {fileID: 2344334280624969551}
   m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
@@ -161,18 +161,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4560870094297986095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711883176484499703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfa1591e1c4f6eb419cb868bb7e496f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4433144926488058547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +175,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxScale: {x: 1, y: 1, z: 1}
   minScale: {x: 0.75, y: 0.75, z: 0.75}
+--- !u!114 &2344334280624969551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711883176484499703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54ad03c0abc6e24eadc19f83e7084a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationAxis: {x: 0, y: 0, z: 1}
+  degreesPerSecond: 90
 --- !u!1 &2877191233805612191
 GameObject:
   m_ObjectHideFlags: 0

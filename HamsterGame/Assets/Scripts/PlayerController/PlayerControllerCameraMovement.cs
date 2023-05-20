@@ -83,6 +83,7 @@ public class PlayerControllerCameraMovement : MonoBehaviour
                 lockOnTargetOriginalPosition = lockedOnTarget.localPosition;
                 lockedOnComponent = lockedOnTarget.parent.GetComponent<LockOnTarget>();
                 lockedOnComponent.LockOn();
+                PlayerManager.playerAnimator.SetBool("isLockedOn", true);
                 
             }
             else
@@ -105,12 +106,15 @@ public class PlayerControllerCameraMovement : MonoBehaviour
             lockedOnComponent = null;
         }
         lockedOn = false;
+        PlayerManager.playerAnimator.SetBool("isLockedOn", false);
     }
 
     //finds the target that is the closest to where the player is looking
     private Transform FindLockOnTarget()
     {
         List<ColliderValueStorage> colliders = GetEligibleTargets();
+
+        if (colliders.Count < 1) { return null; }
         
         return FindBestEligibleTarget(colliders);
     }
@@ -147,7 +151,11 @@ public class PlayerControllerCameraMovement : MonoBehaviour
             if (angleToHit < 0) { continue; }
 
             RaycastHit rayHitInfo;
-            Physics.Raycast(transform.position, directionToHit, out rayHitInfo, lockOnRange);
+            if (!Physics.Raycast(transform.position + (Vector3.up * 1.4f), directionToHit, out rayHitInfo, lockOnRange))
+            {
+                continue;
+            }
+
             //Debug.DrawRay(transform.position, directionToHit * 15, Color.red, 10f);
 
             if (!rayHitInfo.collider.gameObject.CompareTag("Enemy")) { continue; }

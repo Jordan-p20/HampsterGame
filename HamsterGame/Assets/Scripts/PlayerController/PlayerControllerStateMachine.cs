@@ -18,7 +18,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
     private Dictionary<string, float> animTableLengths = new Dictionary<string, float>();
 
     //current state
-    [SerializeField] private PlayerStates curPlayerStateFlag = PlayerStates.WALK;
+    private PlayerStates curPlayerStateFlag = PlayerStates.NONE;
     private PlayerState curPlayerState;
 
     [SerializeField] private bool DrawGizmos = true;
@@ -33,13 +33,17 @@ public class PlayerControllerStateMachine : MonoBehaviour
         SMCharacterAnimator = PlayerManager.playerAnimator;
         playerBody = PlayerManager.playerTransform.GetChild(2);
 
-        curPlayerState = new PlayerStateWalk();
-        curPlayerState.Initialize(GetSMData());
-
+        curPlayerState = new PlayerStateFall();
+        curPlayerStateFlag = PlayerStates.FALL;
+        curPlayerState.Initialize(GetSMData(), Vector3.zero);
 
         foreach (AnimationClip clip in SMCharacterAnimator.runtimeAnimatorController.animationClips)
         {
-            animTableLengths.Add(clip.name, clip.length);
+            if (!animTableLengths.ContainsKey(clip.name))
+            {
+                animTableLengths.Add(clip.name, clip.length);
+            }
+            
         }
 
     }
@@ -133,6 +137,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
 
 public enum PlayerStates
 {
+    NONE,
     WALK,
     JUMP,
     FALL,

@@ -18,7 +18,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
     private Dictionary<string, float> animTableLengths = new Dictionary<string, float>();
 
     //current state
-    private PlayerStates curPlayerStateFlag = PlayerStates.NONE;
+    [SerializeField] private PlayerStates curPlayerStateFlag = PlayerStates.NONE;
     private PlayerState curPlayerState;
 
     [SerializeField] private bool DrawGizmos = true;
@@ -33,9 +33,10 @@ public class PlayerControllerStateMachine : MonoBehaviour
         SMCharacterAnimator = PlayerManager.playerAnimator;
         playerBody = PlayerManager.playerTransform.GetChild(2);
 
-        curPlayerState = new PlayerStateFall();
-        curPlayerStateFlag = PlayerStates.FALL;
-        curPlayerState.Initialize(GetSMData(), Vector3.zero);
+        curPlayerState = new PlayerStateWalk();
+        curPlayerStateFlag = PlayerStates.WALK;
+        curPlayerState.Initialize(GetSMData());
+        curPlayerState.OnStateEnter();
 
         foreach (AnimationClip clip in SMCharacterAnimator.runtimeAnimatorController.animationClips)
         {
@@ -76,9 +77,9 @@ public class PlayerControllerStateMachine : MonoBehaviour
     //transitions from one state to another
     public void TransitionState(PlayerStates newState)
     {
-        Debug.Log("TRANSITIONING TO " + newState);
-
         if (curPlayerStateFlag == newState) { return;  }//return if new state is same as old state
+
+        Debug.Log("TRANSITIONING TO " + newState);
 
         Vector3 oldHorMotion = curPlayerState.horizontalMotion;
         Vector3 oldVertMotion = curPlayerState.verticalMotion;
@@ -101,7 +102,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
                 break;
             case PlayerStates.HARD_LAND:
                 curPlayerState = new PlayerStateHardLand();
-                curPlayerState.Initialize(GetSMData());
+                curPlayerState.Initialize(GetSMData(), oldHorMotion, oldVertMotion);
                 break;
             case PlayerStates.ATTACK:
                 curPlayerState = new PlayerStateAttack();

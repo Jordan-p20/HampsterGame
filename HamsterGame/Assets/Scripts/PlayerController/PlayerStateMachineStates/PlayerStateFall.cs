@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerStateFall : PlayerState
 {
     private float fallLength = 0f;
-    private const float HIGH_FALL_THRESHOLD = 0.85f;
+    private const float HIGH_FALL_THRESHOLD = -12f;
 
     public override void OnStateEnter()
     {
@@ -32,15 +32,13 @@ public class PlayerStateFall : PlayerState
     {
         if (controller.isGrounded)
         {
-            if (fallLength >= HIGH_FALL_THRESHOLD)
+            if (verticalMotion.y <= HIGH_FALL_THRESHOLD)
             {
-                //Debug.Log("Fall length " + fallLength);
                 SM.TransitionState(PlayerStates.HARD_LAND);
                 return;
             }
             else
             {
-                //Debug.Log("Fall length " + fallLength);
                 SM.TransitionState(PlayerStates.WALK);
                 return;
             }

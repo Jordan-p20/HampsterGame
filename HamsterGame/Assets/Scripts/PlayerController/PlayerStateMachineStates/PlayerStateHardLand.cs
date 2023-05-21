@@ -6,7 +6,8 @@ public class PlayerStateHardLand : PlayerState
 {
     private float elapsedTime = 0f;
     private float animLength;
-    private const float ROLL_SPEED = 3f;
+    private const float ROLL_SPEED = 5f;
+    private bool isRolling = false;
 
     public override void OnStateEnter()
     {
@@ -14,6 +15,7 @@ public class PlayerStateHardLand : PlayerState
         if (verticalMotion.y > -18)
         {
             animLength = animLengths["LandRoll"];
+            isRolling = true;
         }
         else
         {
@@ -31,12 +33,19 @@ public class PlayerStateHardLand : PlayerState
     public override void StateUpdate()
     {
         elapsedTime += Time.deltaTime;
+
+        if (isRolling)
+        {
+            controller.Move(((Vector3.up * GRAVITY * 0.2f) + horizontalMotion).normalized * ROLL_SPEED * Time.deltaTime);
+        }
+        
+
         TransitionCheck();
     }
 
     public override void TransitionCheck()
     {
-        if (elapsedTime >= animLength)
+        if (elapsedTime >= animLength * 0.95f)
         {
             SM.TransitionState(PlayerStates.WALK);
             return;

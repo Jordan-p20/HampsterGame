@@ -20,7 +20,6 @@ public class PlayerStateFall : PlayerState
     public override void StateUpdate()
     {
         verticalMotion += Vector3.up * GRAVITY * Time.deltaTime;
-
         controller.Move((horizontalMotion + verticalMotion) * Time.deltaTime);
 
         fallLength += Time.deltaTime;

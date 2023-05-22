@@ -10,7 +10,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
     private PlayerControllerInput playerInput;
 
     [SerializeField] private CharacterController SMCharaController;//serialized for debug drawing doesnt need to be for actual play
-
+    
     private Animator SMCharacterAnimator;
 
     private Transform playerBody;

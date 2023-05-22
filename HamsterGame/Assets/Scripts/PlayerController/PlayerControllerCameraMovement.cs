@@ -72,7 +72,7 @@ public class PlayerControllerCameraMovement : MonoBehaviour
         }
 
         //if player has not pressed middle return
-        if (!PlayerManager.playerControllerInput.middleMousePressed) { return; }
+        if (!PlayerManager.playerControllerInput.tabPressed) { return; }
 
         if (!lockedOn)//if player is not locked on 
         {

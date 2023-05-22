@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class PlayerStateWalk : PlayerState
 {
-    private float playerSpeed = 5.5f;
-    private float lastSpeed = 0f;
+    private float playerSpeed = 5.5f;//current player speed
+    private float lastSpeed = 0f;//the last speed the player was
 
 
-    private const float WALK_SPEED = 4.8f;
-    private const float RUN_SPEED = 6.5f;
-    private const float TURN_SPEED = 10f;
-    private const float BLEND_RATE = 6f;
-    private const float LOCK_ON_SPEED = 4f;
+    private const float WALK_SPEED = 4.8f;//how fast the player walks
+    private const float RUN_SPEED = 6.5f;//how fast the player runs
+    private const float LOCK_ON_SPEED = 4f;//how fast the player moves while locked on
+    private const float TURN_SPEED = 10f;//how fast the players body changes to the correct direction
+    private const float BLEND_RATE = 6f;//how fast the animations blend
+
 
     public override void OnStateEnter()
     {

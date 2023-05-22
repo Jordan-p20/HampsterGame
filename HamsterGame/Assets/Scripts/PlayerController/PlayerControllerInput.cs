@@ -32,7 +32,7 @@ public class PlayerControllerInput : MonoBehaviour
 
     private bool leftMousePressed = false;
 
-    public bool middleMousePressed = false;
+    public bool tabPressed = false;
 
     public void Update()
     {
@@ -50,7 +50,7 @@ public class PlayerControllerInput : MonoBehaviour
     private void getMouseButtonInputs()
     {
         leftMousePressed = Input.GetMouseButton(0);
-        middleMousePressed= Input.GetMouseButtonDown(2);
+        tabPressed= Input.GetKeyDown(KeyCode.Tab);
         
     }
 

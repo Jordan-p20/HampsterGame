@@ -109,7 +109,7 @@ public class PlayerStateRoll : PlayerState
             return;
         }
 
-        if (elapsedTime >= animLength * 0.78f)
+        if (elapsedTime >= animLength * 0.78f && controller.isGrounded)
         {
             SM.TransitionState(PlayerStates.WALK);
             return;

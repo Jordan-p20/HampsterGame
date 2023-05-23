@@ -10583,8 +10583,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9119208635141816773, guid: 971d8750393df6340bd75a17e7486f12,
         type: 3}
+      propertyPath: DrawGizmos
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119208635141816773, guid: 971d8750393df6340bd75a17e7486f12,
+        type: 3}
       propertyPath: SMCharaController
       value: 
       objectReference: {fileID: 94860416}
+    - target: {fileID: 9119208635141816775, guid: 971d8750393df6340bd75a17e7486f12,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 971d8750393df6340bd75a17e7486f12, type: 3}

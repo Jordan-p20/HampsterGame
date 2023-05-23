@@ -12,7 +12,7 @@ public class PlayerStateRoll : PlayerState
 
     private float rollSpeed;
 
-    private const float FAST_ROLL_SPEED = 6.5f;
+    private const float FAST_ROLL_SPEED = 7f;
     private const float SLOW_ROLL_SPEED = 2.5f;
     private const float BLEND_TIME = 5f;
 

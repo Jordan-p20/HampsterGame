@@ -97,6 +97,7 @@ public class PlayerControllerCameraMovement : MonoBehaviour
         }
     }
 
+    //resets lock on varaibles
     private void ResetLockOnValues()
     {
         SetLockOnTarget(null);
@@ -230,6 +231,7 @@ public class PlayerControllerCameraMovement : MonoBehaviour
         return vec;
     }
 
+    //sets what target the player is locking on to
     public void SetLockOnTarget(Transform newTarget)
     {
         if (lockedOnTarget != null)
@@ -239,6 +241,7 @@ public class PlayerControllerCameraMovement : MonoBehaviour
         lockedOnTarget = newTarget;
     }
 
+    //returns what target the player is locking on to
     public Transform GetLockOnTarget()
     {
         return lockedOnTarget;

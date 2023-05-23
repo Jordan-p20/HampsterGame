@@ -36,17 +36,32 @@ public class PlayerStateRoll : PlayerState
         SelectMoveSpeed();
 
         GetHorizontalMotion();
+        UpdateVerticalMotion();
 
         RotateBody();
 
         controller.Move( ( (horizontalMotion * rollSpeed) + verticalMotion ) * Time.deltaTime );
     }
 
+    //rotates the players body towards the horizontal motion input by a blend time amount
     private void RotateBody()
     {
         playerBody.rotation = Quaternion.Lerp(playerBody.rotation, Quaternion.LookRotation(horizontalMotion, Vector3.up), Time.deltaTime * BLEND_TIME);
     }
 
+    private void UpdateVerticalMotion()
+    {
+        if (!controller.isGrounded)
+        {
+            verticalMotion += Vector3.up * GRAVITY * Time.deltaTime;
+        }
+        else
+        {
+            verticalMotion = Vector3.up * GRAVITY * 0.15f;
+        }
+    }
+
+    //gets an input direction vector from input
     private void GetHorizontalMotion()
     {
         Vector2 moveInput = PlayerManager.playerControllerInput.moveInput;
@@ -63,6 +78,7 @@ public class PlayerStateRoll : PlayerState
         
     }
 
+    //selects what speed the player should move based on elapsed time
     private void SelectMoveSpeed()
     {
         if (elapsedTime <= 0.8667f)
@@ -81,7 +97,7 @@ public class PlayerStateRoll : PlayerState
 
     public override void TransitionCheck()
     {
-        if (!controller.isGrounded)
+        if (!controller.isGrounded && elapsedTime >= animLength)
         {
             SM.TransitionState(PlayerStates.FALL);
             return;

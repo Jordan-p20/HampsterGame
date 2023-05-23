@@ -39,8 +39,6 @@ public class PlayerStateHardLand : PlayerState
             controller.Move(((Vector3.up * GRAVITY * 0.2f) + horizontalMotion).normalized * ROLL_SPEED * Time.deltaTime);
         }
         
-
-        TransitionCheck();
     }
 
     public override void TransitionCheck()

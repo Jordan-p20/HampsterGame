@@ -23,15 +23,20 @@ public class PlayerStateAttack : PlayerState
     public override void StateUpdate()
     {
         elapsedTime += Time.deltaTime;
-
-        TransitionCheck();
     }
 
     public override void TransitionCheck()
     {
+        if (PlayerManager.playerControllerInput.middleMousePressed && controller.isGrounded)
+        {
+            SM.TransitionState(PlayerStates.ROLL);
+            return;
+        }
+
         if (elapsedTime >= animLength)
         {
             SM.TransitionState(PlayerStates.WALK);
+            return;
         }
 
         if (elapsedTime >= animLength * 0.75f && combo < maxCombo && PlayerManager.playerControllerInput.attackPressed)
@@ -40,7 +45,7 @@ public class PlayerStateAttack : PlayerState
             elapsedTime= 0f;
             combo++;
             anim.CrossFade("Attack", 0.1f, 0, 0);
-
+            return;
         }
     }
 }

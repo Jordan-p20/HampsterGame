@@ -71,6 +71,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
         }
 
         curPlayerState.StateUpdate();
+        curPlayerState.TransitionCheck();
     }
 
 
@@ -107,6 +108,10 @@ public class PlayerControllerStateMachine : MonoBehaviour
             case PlayerStates.ATTACK:
                 curPlayerState = new PlayerStateAttack();
                 curPlayerState.Initialize(GetSMData());
+                break;
+            case PlayerStates.ROLL:
+                curPlayerState = new PlayerStateRoll();
+                curPlayerState.Initialize(GetSMData(), oldHorMotion);
                 break;
         }
         

@@ -34,6 +34,8 @@ public class PlayerControllerInput : MonoBehaviour
 
     public bool tabPressed = false;
 
+    public bool middleMousePressed { get; private set; } = false;
+
     public void Update()
     {
         GetMouseInput();
@@ -51,7 +53,7 @@ public class PlayerControllerInput : MonoBehaviour
     {
         leftMousePressed = Input.GetMouseButton(0);
         tabPressed= Input.GetKeyDown(KeyCode.Tab);
-        
+        middleMousePressed = Input.GetMouseButtonDown(2);
     }
 
     private void GetMovementInput()

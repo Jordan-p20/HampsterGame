@@ -24,7 +24,6 @@ public class PlayerStateFall : PlayerState
 
         fallLength += Time.deltaTime;
 
-        TransitionCheck();
     }
 
     public override void TransitionCheck()

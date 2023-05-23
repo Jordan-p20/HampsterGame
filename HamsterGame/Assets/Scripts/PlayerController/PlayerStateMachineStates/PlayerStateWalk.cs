@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerStateWalk : PlayerState
 {
-    private float playerSpeed = 5.5f;//current player speed
+    private float playerSpeed = 4.8f;//current player speed
     private float lastSpeed = 0f;//the last speed the player was
 
 
@@ -52,12 +52,8 @@ public class PlayerStateWalk : PlayerState
         {
             playerSpeed = lastSpeed;
         }
-
-        //Debug.Log(playerSpeed);
         
         controller.Move(GetMotion());
-
-        TransitionCheck();
     }
 
     //returns the motion of the character given inputs
@@ -155,6 +151,12 @@ public class PlayerStateWalk : PlayerState
 
     public override void TransitionCheck()
     {
+        if (PlayerManager.playerControllerInput.middleMousePressed && controller.isGrounded)
+        {
+            SM.TransitionState(PlayerStates.ROLL);
+            return;
+        }
+
         if (controller.isGrounded && PlayerManager.playerControllerInput.jumpPressed)
         {
             SM.TransitionState(PlayerStates.JUMP);

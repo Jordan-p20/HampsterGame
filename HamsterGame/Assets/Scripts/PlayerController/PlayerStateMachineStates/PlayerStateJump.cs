@@ -29,8 +29,6 @@ public class PlayerStateJump : PlayerState
         controller.Move((verticalMotion + horizontalMotion) * Time.deltaTime);
 
         elapsedJumpTime += Time.deltaTime;
-
-        TransitionCheck();
     }
 
     public override void TransitionCheck()

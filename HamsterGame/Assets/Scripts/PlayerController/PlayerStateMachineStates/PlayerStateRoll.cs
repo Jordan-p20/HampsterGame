@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class PlayerStateRoll : PlayerState
 {
-    private const float ROLL_SPEED = 5f;
+
+
+    // <.36667 <- slow
+    // .36667 <- fast
+    //1.06667 <- stop
+
+    private float rollSpeed;
+
+    private const float FAST_ROLL_SPEED = 6.5f;
+    private const float SLOW_ROLL_SPEED = 2.5f;
     private Vector3 directionVector;
     private float animLength;
     private float elapsedTime = 0f;
@@ -13,7 +22,6 @@ public class PlayerStateRoll : PlayerState
         anim.SetBool("Roll", true);
         animLength = animLengths["DodgeRoll"];
         playerBody.rotation = Quaternion.LookRotation(directionVector, Vector3.up);
-        Debug.Log(animLength);
     }
 
     public override void OnStateExit()
@@ -25,12 +33,29 @@ public class PlayerStateRoll : PlayerState
     {
         elapsedTime += Time.deltaTime;
 
-        controller.Move( ( (directionVector * ROLL_SPEED) + verticalMotion ) * Time.deltaTime );
+        //if (elapsedTime < 0.3667f)
+        //{
+        //    rollSpeed = SLOW_ROLL_SPEED;
+        //}
+        if (elapsedTime <= 0.8667f)
+        {
+            rollSpeed = FAST_ROLL_SPEED;
+        }
+        else if (elapsedTime <= 1.1f)
+        {
+            rollSpeed = SLOW_ROLL_SPEED;
+        }
+        else
+        {
+            rollSpeed = 0;
+        }
+
+        controller.Move( ( (directionVector * rollSpeed) + verticalMotion ) * Time.deltaTime );
     }
 
     public override void TransitionCheck()
     {
-        if (elapsedTime >= animLength)
+        if (elapsedTime >= animLength * 0.78f)
         {
             SM.TransitionState(PlayerStates.WALK);
             return;

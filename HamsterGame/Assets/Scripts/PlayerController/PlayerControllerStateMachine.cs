@@ -29,7 +29,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
         camMovement = PlayerManager.playerCameraMovement;
         playerInput = PlayerManager.playerControllerInput;
 
-        //SMCharaController = GetComponent<CharacterController>();
+        SMCharaController = GetComponent<CharacterController>();
         SMCharacterAnimator = PlayerManager.playerAnimator;
         playerBody = PlayerManager.playerTransform.GetChild(2);
 

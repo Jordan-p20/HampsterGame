@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerStateJump : PlayerState
 {
-    private const float JUMP_SPEED = 7f;
+    private const float JUMP_SPEED = 7f;//how fast the player jumps
 
-    private float elapsedJumpTime = 0f;
-    private float jumpAnimLength = 0.95f;
+    private float elapsedJumpTime = 0f;//how long the jump state has been active
+    private float jumpAnimLength;// how long the animation is
 
 
     public override void OnStateEnter()

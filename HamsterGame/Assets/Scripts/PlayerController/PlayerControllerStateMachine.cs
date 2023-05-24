@@ -5,23 +5,27 @@ using UnityEngine.Rendering;
 
 public class PlayerControllerStateMachine : MonoBehaviour
 {
-    private PlayerControllerCameraMovement camMovement;
+    /*
+     * this class controls what state the player is in and how states are controlled and transitioned
+     */
 
-    private PlayerControllerInput playerInput;
+    private PlayerControllerCameraMovement camMovement;//camera movement reference
+
+    private PlayerControllerInput playerInput;// input reference
 
     [SerializeField] private CharacterController SMCharaController;//serialized for debug drawing doesnt need to be for actual play
     
-    private Animator SMCharacterAnimator;
+    private Animator SMCharacterAnimator;//animator
 
-    private Transform playerBody;
+    private Transform playerBody;//transform of the players body
 
-    private Dictionary<string, float> animTableLengths = new Dictionary<string, float>();
+    private Dictionary<string, float> animTableLengths = new Dictionary<string, float>();//animation lengths
 
     //current state
-    [SerializeField] private PlayerStates curPlayerStateFlag = PlayerStates.NONE;
-    private PlayerState curPlayerState;
+    [SerializeField] private PlayerStates curPlayerStateFlag = PlayerStates.NONE;//current state the player is in flag (mainly for check what state the player is in so you dont have to use gettype)
+    private PlayerState curPlayerState;// the state the player is currently in
 
-    [SerializeField] private bool DrawGizmos = true;
+    [SerializeField] private bool DrawGizmos = true;//whether to draw a player hitbox gizmo
 
 
     private void Start()
@@ -56,6 +60,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
             Debug.Break();
         }
 
+        //teleport to top of tower
         if (Input.GetKeyDown("r"))
         {
             SMCharaController.gameObject.SetActive(false);
@@ -63,6 +68,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
             SMCharaController.gameObject.SetActive(true);
         }
 
+        //teleport to ground
         if (Input.GetKeyDown("e"))
         {
             SMCharaController.gameObject.SetActive(false);

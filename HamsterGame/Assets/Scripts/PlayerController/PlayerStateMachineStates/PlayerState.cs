@@ -5,16 +5,20 @@ using UnityEngine;
 //abstract class for player states
 public abstract class PlayerState
 {
-    //constants
-    protected const float GRAVITY = -9.8f * 2.25f;
+    /*
+     * abstract state class in which all states inherit from
+     */
 
-    protected CharacterController controller;
-    protected Animator anim;
-    protected Transform playerBody;
-    protected PlayerControllerStateMachine SM;
-    protected Dictionary<string, float> animLengths;
-    public Vector3 horizontalMotion { get; protected set; }
-    public Vector3 verticalMotion { get; protected set; }
+    //constants
+    protected const float GRAVITY = -9.8f * 2.25f;//gravity
+
+    protected CharacterController controller;//reference to the player character controller
+    protected Animator anim;//ref to the animator
+    protected Transform playerBody;//reference to the transform of the players body
+    protected PlayerControllerStateMachine SM;// reference to this states state machine
+    protected Dictionary<string, float> animLengths;//dictionary of all animations and their lengths
+    public Vector3 horizontalMotion { get; protected set; }// the horizontal motion of this state
+    public Vector3 verticalMotion { get; protected set; }// the vertical motion of this state
 
     //called when creating a new state to initialize references
     public virtual void Initialize(PlayerStateMachineData SMData)

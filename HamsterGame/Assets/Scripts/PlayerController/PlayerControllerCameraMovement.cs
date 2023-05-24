@@ -7,8 +7,9 @@ using UnityEngine;
 
 public class PlayerControllerCameraMovement : MonoBehaviour
 {
-    public bool playerControlled { private set; get; } = true;
+    public bool playerControlled { private set; get; } = true;//if the player has control over the camera
 
+    [Tooltip("Whether or not the player is currently locked on to a target")]
     public bool lockedOn = false;
     [SerializeField] private Transform lockedOnTarget;
     [SerializeField] private Vector3 lockOnTargetOriginalPosition;
@@ -21,12 +22,14 @@ public class PlayerControllerCameraMovement : MonoBehaviour
     [Tooltip("Transform that mimics what direction the camera is facing without the unnecessary rotations (only takes from cameras y rotations)")]
     public Transform camLocomotion { get; private set; }
 
+    [Tooltip("how fast the camera moves to the locked on target")]
     public float lockOnSpeed = 4f;
+    [Tooltip("how far away a locked on target can be before you cant lock on/ lock on disengages")]
     public float lockOnRange = 35f;
 
-    private Transform actualCamera;
+    private Transform actualCamera;// the transform of the actual camera object 
 
-    [SerializeField] private LockOnTarget lockedOnComponent;
+    [SerializeField] private LockOnTarget lockedOnComponent;//the lockOnTarget component of the locked on target
 
     private void Start()
     {
@@ -41,6 +44,8 @@ public class PlayerControllerCameraMovement : MonoBehaviour
 
     public void Update()
     {
+        if (!playerControlled) return; 
+
         LockOnTargetCheck();
         UpdateTargetTransform();
         MoveCamera(PlayerManager.playerControllerInput.mouseMovement);

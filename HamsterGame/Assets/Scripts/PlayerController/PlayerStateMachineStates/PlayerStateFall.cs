@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerStateFall : PlayerState
 {
-    private float fallLength = 0f;
-    private const float HIGH_FALL_THRESHOLD = -12f;
+    private const float HIGH_FALL_THRESHOLD = -12f;//how high the player must be falling to be considered a "high fall"
 
     public override void OnStateEnter()
     {
@@ -21,8 +20,6 @@ public class PlayerStateFall : PlayerState
     {
         verticalMotion += Vector3.up * GRAVITY * Time.deltaTime;
         controller.Move((horizontalMotion + verticalMotion) * Time.deltaTime);
-
-        fallLength += Time.deltaTime;
 
     }
 

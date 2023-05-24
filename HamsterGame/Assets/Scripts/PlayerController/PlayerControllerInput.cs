@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerControllerInput : MonoBehaviour
 {
+    /*
+     * this class handles collecting and supplying player input
+     */
     public Vector2 mouseMovement { get; private set; } = Vector3.zero;
     public Vector2 cameraSense;
 

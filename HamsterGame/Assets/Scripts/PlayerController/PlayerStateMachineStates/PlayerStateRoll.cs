@@ -10,14 +10,14 @@ public class PlayerStateRoll : PlayerState
     // .36667 <- fast
     //1.06667 <- stop
 
-    private float rollSpeed;
+    private float rollSpeed;//the current roll speed
 
-    private const float FAST_ROLL_SPEED = 7f;
-    private const float SLOW_ROLL_SPEED = 2.5f;
-    private const float BLEND_TIME = 5f;
+    private const float FAST_ROLL_SPEED = 7f;//the speed when the roll is fast
+    private const float SLOW_ROLL_SPEED = 2.5f;//the speed when the roll is slow
+    private const float BLEND_TIME = 5f;//how fast to blend the body towards the roll direcrion
 
-    private float animLength;
-    private float elapsedTime = 0f;
+    private float animLength;// how long the animation is
+    private float elapsedTime = 0f;//how long the state has been active for
     public override void OnStateEnter()
     {
         anim.SetBool("Roll", true);
@@ -49,6 +49,7 @@ public class PlayerStateRoll : PlayerState
         playerBody.rotation = Quaternion.Lerp(playerBody.rotation, Quaternion.LookRotation(horizontalMotion, Vector3.up), Time.deltaTime * BLEND_TIME);
     }
 
+    //updates the vertical (Y) motion
     private void UpdateVerticalMotion()
     {
         if (!controller.isGrounded)

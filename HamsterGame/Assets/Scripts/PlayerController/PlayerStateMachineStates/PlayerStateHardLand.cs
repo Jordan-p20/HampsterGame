@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerStateHardLand : PlayerState
 {
-    private float elapsedTime = 0f;
-    private float animLength;
-    private const float ROLL_SPEED = 5f;
-    private bool isRolling = false;
+    private float elapsedTime = 0f;//how long this state has been active
+    private float animLength;//the animation length of this state
+    private const float ROLL_SPEED = 5f;//the speed how the roll horizontally
+    private bool isRolling = false;// whether the player is rolling
 
     public override void OnStateEnter()
     {

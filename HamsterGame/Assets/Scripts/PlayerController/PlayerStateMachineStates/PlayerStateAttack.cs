@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerStateAttack : PlayerState
 {
-    private float animLength;
-    private float elapsedTime = 0f;
-    private int combo = 1;
-    private const int maxCombo = 3;
+    private float animLength;//the animation length
+    private float elapsedTime = 0f;//how long the state has been active fr
+    private int combo = 1;// how many times the player has attacked in a row
+    private const int maxCombo = 3;// the max amount of times the player can attack in a row
 
     public override void OnStateEnter()
     {

@@ -27,16 +27,10 @@ public class Health : MonoBehaviour
     }
 
     //alter the current health by amount
-    public void AlterCurrentHealth(float amount)
-    {
-        currentHealth += amount;
-    }
-
-    //alter the max health by amount
-    public void AlterMaxHealth(float amount)
+    public virtual void AlterCurrentHealth(float amount)
     {
         if (!canBeDamaged) { return; }
-        maxHealth += amount;
+        currentHealth += amount;
         if (currentHealth <= 0)
         {
             OnDeath();
@@ -45,6 +39,18 @@ public class Health : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+    }
+
+    //alter the max health by amount
+    public virtual void AlterMaxHealth(float amount)
+    {
+        
+        maxHealth += amount;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        
     }
 
     //make the character not be able to be damaged

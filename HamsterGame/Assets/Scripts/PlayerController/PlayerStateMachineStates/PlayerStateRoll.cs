@@ -98,7 +98,7 @@ public class PlayerStateRoll : PlayerState
 
     public override void TransitionCheck()
     {
-        if (!controller.isGrounded && elapsedTime >= animLength)
+        if (!controller.isGrounded && elapsedTime >= animLength * 0.78f)
         {
             SM.TransitionState(PlayerStates.FALL);
             return;

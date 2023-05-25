@@ -26,6 +26,7 @@ public class PlayerStateJump : PlayerState
     {
         verticalMotion += Vector3.up * GRAVITY * Time.deltaTime;
 
+
         controller.Move((verticalMotion + horizontalMotion) * Time.deltaTime);
 
         elapsedJumpTime += Time.deltaTime;
@@ -53,5 +54,4 @@ public class PlayerStateJump : PlayerState
         horizontalMotion = previousHorMotion;
         
     }
-
 }

@@ -67,28 +67,17 @@ public class PlayerStateWalk : PlayerState
     //updates the horizontal (x,z) axis movement 
     private void UpdateHorizontalMotion()
     {
-        Vector2 moveInput = PlayerManager.playerControllerInput.moveInput;
-        Vector3 forward = PlayerManager.playerCameraMovement.GetDirectionVector(CamDirection.FORWARD);
+        Vector3 resultMotion = GetHorizontalMotion();
 
-        Vector3 right = PlayerManager.playerCameraMovement.GetDirectionVector(CamDirection.RIGHT);
-
-
-        horizontalMotion = (((forward * moveInput.y) + (right * moveInput.x)).normalized * playerSpeed);
-
-        RaycastHit floorHitInfo;
-        
-        if (Physics.Raycast(controller.transform.position + Vector3.up * 0.1f, Vector3.down, out floorHitInfo, 0.15f))//slope checking and movement alignment to slope
-        {
-            horizontalMotion = Vector3.ProjectOnPlane(horizontalMotion, floorHitInfo.normal).normalized * playerSpeed;
-        }
+        horizontalMotion = resultMotion * playerSpeed;
 
         //debugstuff
         //Debug.DrawRay(controller.transform.position + Vector3.up * 0.1f, Vector3.down * 0.15f, Color.blue, 0.1f);//downwards slope checking ray drawer
         //Debug.DrawRay(controller.transform.position + Vector3.up, horizontalMotion.normalized, Color.red, 0.1f);//movement vector ray drawer
 
 
-        SetAnimatorMotionParameters(horizontalMotion, moveInput);//set animation parameters for locomotion animations
-        SetBodyDirection(moveInput);//set what direction the body should be facing
+        SetAnimatorMotionParameters(resultMotion, PlayerManager.playerControllerInput.moveInput);//set animation parameters for locomotion animations
+        SetBodyDirection(PlayerManager.playerControllerInput.moveInput);//set what direction the body should be facing
 
     }
 

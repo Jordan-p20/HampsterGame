@@ -35,7 +35,7 @@ public class PlayerStateRoll : PlayerState
 
         SelectMoveSpeed();
 
-        GetHorizontalMotion();
+        UpdateHorizontalMotion();
         UpdateVerticalMotion();
 
         RotateBody();
@@ -63,14 +63,9 @@ public class PlayerStateRoll : PlayerState
     }
 
     //gets an input direction vector from input
-    private void GetHorizontalMotion()
+    private void UpdateHorizontalMotion()
     {
-        Vector2 moveInput = PlayerManager.playerControllerInput.moveInput;
-        Vector3 forward = PlayerManager.playerCameraMovement.GetDirectionVector(CamDirection.FORWARD);
-
-        Vector3 right = PlayerManager.playerCameraMovement.GetDirectionVector(CamDirection.RIGHT);
-
-        Vector3 input = (((forward * moveInput.y) + (right * moveInput.x)).normalized);
+        Vector3 input = GetHorizontalMotion();
 
         if (input.sqrMagnitude != 0)
         {

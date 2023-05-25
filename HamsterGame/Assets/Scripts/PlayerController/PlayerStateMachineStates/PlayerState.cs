@@ -62,5 +62,24 @@ public abstract class PlayerState
     //called every frame to see if this state should transition into another state
     public abstract void TransitionCheck();
 
+    public Vector3 GetHorizontalMotion()
+    {
+        Vector2 moveInput = PlayerManager.playerControllerInput.moveInput;
+        Vector3 forward = PlayerManager.playerCameraMovement.GetDirectionVector(CamDirection.FORWARD);
+
+        Vector3 right = PlayerManager.playerCameraMovement.GetDirectionVector(CamDirection.RIGHT);
+
+        Vector3 result = (((forward * moveInput.y) + (right * moveInput.x)).normalized);
+
+        RaycastHit floorHitInfo;
+
+        if (Physics.Raycast(controller.transform.position + Vector3.up * 0.1f, Vector3.down, out floorHitInfo, 0.15f))//slope checking and movement alignment to slope
+        {
+            result = Vector3.ProjectOnPlane(result, floorHitInfo.normal).normalized;
+        }
+
+        return result;
+    }
+
 
 }

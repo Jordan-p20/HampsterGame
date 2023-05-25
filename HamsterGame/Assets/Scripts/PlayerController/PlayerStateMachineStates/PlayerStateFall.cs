@@ -19,8 +19,19 @@ public class PlayerStateFall : PlayerState
     public override void StateUpdate()
     {
         verticalMotion += Vector3.up * GRAVITY * Time.deltaTime;
+
         controller.Move((horizontalMotion + verticalMotion) * Time.deltaTime);
 
+    }
+
+    public void UpdateHorizontalMotion()
+    {
+        Vector3 input = GetHorizontalMotion();
+
+        if (input.sqrMagnitude != 0)
+        {
+            horizontalMotion = input;
+        }
     }
 
     public override void TransitionCheck()

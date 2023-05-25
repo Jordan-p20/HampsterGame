@@ -12,7 +12,7 @@ public class PlayerStateAttack : PlayerState
     public override void OnStateEnter()
     {
         anim.SetBool("Attack", true);
-        animLength = animLengths["Attack"] * 0.5f;
+        animLength = 1.0f;//animLengths["Attack"] * 0.5f;
     }
 
     public override void OnStateExit()
@@ -39,12 +39,21 @@ public class PlayerStateAttack : PlayerState
             return;
         }
 
-        if (elapsedTime >= animLength * 0.75f && combo < maxCombo && PlayerManager.playerControllerInput.attackPressed)
+        if (elapsedTime >= animLength * 0.5f && combo < maxCombo && PlayerManager.playerControllerInput.attackPressed)
         {
             Debug.Log(combo);
             elapsedTime= 0f;
             combo++;
-            anim.CrossFade("Attack", 0.1f, 0, 0);
+            if(combo == 2)
+            {
+                anim.CrossFade("AttackTwo", 0.1f, 0, 0);
+            }
+            else
+            {
+                anim.CrossFade("AttackOne", 0.1f, 0, 0);
+            }
+
+            //anim.CrossFade("AttackTwo", 0.1f, 0, 0);
             return;
         }
     }

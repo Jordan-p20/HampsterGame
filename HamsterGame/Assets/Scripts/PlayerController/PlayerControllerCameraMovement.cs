@@ -75,15 +75,15 @@ public class PlayerControllerCameraMovement : MonoBehaviour
         switch (setting)
         {
             case CamPositionPreset.Close:
-                StartCoroutine(MoveCameraToDistance(closeCameraPos));
+                currentCoroutine =  StartCoroutine(MoveCameraToDistance(closeCameraPos));
                 break;
 
             case CamPositionPreset.Medium:
-                StartCoroutine(MoveCameraToDistance(mediumCameraPos));
+                currentCoroutine = StartCoroutine(MoveCameraToDistance(mediumCameraPos));
                 break;
 
             case CamPositionPreset.Far:
-                StartCoroutine(MoveCameraToDistance(farCameraPos));
+                currentCoroutine = StartCoroutine(MoveCameraToDistance(farCameraPos));
                 break;
         }
     }
@@ -91,13 +91,13 @@ public class PlayerControllerCameraMovement : MonoBehaviour
     private IEnumerator MoveCameraToDistance(Vector3 newPos)
     {
         Debug.Log("inside coro");
-
+        
         while (actualCamera.localPosition != newPos)
         {
             actualCamera.localPosition = Vector3.MoveTowards(actualCamera.localPosition, newPos, cameraZoomSpeed * Time.deltaTime);
             yield return null;
         }
-
+        currentCoroutine = null;
     }
 
     //updates the locked on targets lockon transform based on distance to the player

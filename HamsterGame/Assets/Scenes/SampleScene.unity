@@ -10498,23 +10498,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
         type: 3}
-      propertyPath: lockedOn
-      value: 0
+      propertyPath: farCameraPos.y
+      value: 3.401
       objectReference: {fileID: 0}
     - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
         type: 3}
-      propertyPath: lockOnRange
-      value: 15
+      propertyPath: farCameraPos.z
+      value: -3.838
       objectReference: {fileID: 0}
     - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
         type: 3}
-      propertyPath: lockOnSpeed
-      value: 15
+      propertyPath: farCameraRange
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
         type: 3}
-      propertyPath: lockedOnTarget
-      value: 
+      propertyPath: cameraZoomSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
+        type: 3}
+      propertyPath: closeCameraPos.x
+      value: 0.4487
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
+        type: 3}
+      propertyPath: closeCameraPos.y
+      value: 2.592
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
+        type: 3}
+      propertyPath: closeCameraPos.z
+      value: -1.666
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
+        type: 3}
+      propertyPath: closeCameraRange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
+        type: 3}
+      propertyPath: mediumCameraPos.y
+      value: 2.979
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
+        type: 3}
+      propertyPath: mediumCameraPos.z
+      value: -2.706
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
+        type: 3}
+      propertyPath: mediumCameraRange
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9119208634712716043, guid: 971d8750393df6340bd75a17e7486f12,
         type: 3}
@@ -10604,12 +10639,12 @@ PrefabInstance:
     - target: {fileID: 9119208636451702841, guid: 971d8750393df6340bd75a17e7486f12,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.401
+      value: 2.979
       objectReference: {fileID: 0}
     - target: {fileID: 9119208636451702841, guid: 971d8750393df6340bd75a17e7486f12,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.838
+      value: -2.706
       objectReference: {fileID: 0}
     - target: {fileID: 9119208636451702841, guid: 971d8750393df6340bd75a17e7486f12,
         type: 3}

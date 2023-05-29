@@ -1,8 +1,10 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerControllerCameraMovement : MonoBehaviour
@@ -31,6 +33,18 @@ public class PlayerControllerCameraMovement : MonoBehaviour
 
     [SerializeField] private LockOnTarget lockedOnComponent;//the lockOnTarget component of the locked on target
 
+    private Coroutine currentCoroutine;//hold the currently acting coroutine, null if not using one
+    [Tooltip("the position that the camera should be from the camera holder when in the close setting")]
+    [SerializeField] private Vector3 closeCameraPos;
+
+    [Tooltip("the position that the camera should be from the camera holder when in the medium setting")]
+    [SerializeField] private Vector3 mediumCameraPos;
+
+    [Tooltip("the position that the camera should be from the camera holder when in the far setting")]
+    [SerializeField] private Vector3 farCameraPos;
+
+    [SerializeField] private float cameraZoomSpeed;
+
     private void Start()
     {
         camLocomotion = PlayerManager.playerTransform.GetChild(1);
@@ -39,16 +53,51 @@ public class PlayerControllerCameraMovement : MonoBehaviour
             lockOnTargetOriginalPosition = lockedOnTarget.localPosition;
         }
         actualCamera = transform.GetChild(0);
-        
+
+        Debug.Log(Vector3.Distance(transform.position, actualCamera.position));
     }
 
     public void Update()
     {
-        if (!playerControlled) return; 
+        if (!playerControlled) return;
+
+        if (Input.GetKeyDown("t")) ChangeCameraSetting(CamPositionPreset.Close);
 
         LockOnTargetCheck();
         UpdateTargetTransform();
         MoveCamera(PlayerManager.playerControllerInput.mouseMovement);
+    }
+
+    public void ChangeCameraSetting(CamPositionPreset setting)
+    {
+        if (currentCoroutine != null) StopAllCoroutines();
+
+        switch (setting)
+        {
+            case CamPositionPreset.Close:
+                StartCoroutine(MoveCameraToDistance(closeCameraPos));
+                break;
+
+            case CamPositionPreset.Medium:
+                StartCoroutine(MoveCameraToDistance(mediumCameraPos));
+                break;
+
+            case CamPositionPreset.Far:
+                StartCoroutine(MoveCameraToDistance(farCameraPos));
+                break;
+        }
+    }
+
+    private IEnumerator MoveCameraToDistance(Vector3 newPos)
+    {
+        Debug.Log("inside coro");
+
+        while (actualCamera.localPosition != newPos)
+        {
+            actualCamera.localPosition = Vector3.MoveTowards(actualCamera.localPosition, newPos, cameraZoomSpeed * Time.deltaTime);
+            yield return null;
+        }
+
     }
 
     //updates the locked on targets lockon transform based on distance to the player
@@ -255,6 +304,12 @@ public class PlayerControllerCameraMovement : MonoBehaviour
    
 }
 
+public enum CamPositionPreset {
+    Close,
+    Medium,
+    Far
+}
+
 public enum CamDirection
 {
     UP, RIGHT, FORWARD
@@ -272,3 +327,4 @@ struct ColliderValueStorage
     public float value;
 
 }
+

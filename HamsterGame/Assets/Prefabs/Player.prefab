@@ -159,8 +159,13 @@ MonoBehaviour:
   lockOnTargetOriginalPosition: {x: 0, y: 0, z: 0}
   upperBound: 40
   lowerBound: 40
-  lockOnSpeed: 4
-  lockOnRange: 35
+  lockOnSpeed: 15
+  lockOnRange: 15
+  lockedOnComponent: {fileID: 0}
+  closeCameraRange: 0
+  mediumCameraRange: 0
+  farCameraRange: 0
+  cameraZoomSpeed: 0
 --- !u!1 &9119208635083490110
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraSense: {x: 2, y: 2}
-  middleMousePressed: 0
+  tabPressed: 0
 --- !u!114 &9119208635141816773
 MonoBehaviour:
   m_ObjectHideFlags: 0

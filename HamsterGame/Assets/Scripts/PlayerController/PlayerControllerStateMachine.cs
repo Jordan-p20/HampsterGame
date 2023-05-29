@@ -55,10 +55,6 @@ public class PlayerControllerStateMachine : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("t"))
-        {
-            Debug.Break();
-        }
 
         //teleport to top of tower
         if (Input.GetKeyDown("r"))

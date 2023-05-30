@@ -165,6 +165,11 @@ public class PlayerStateWalk : PlayerState
             return;
         }
 
+        if (PlayerManager.playerControllerInput.aimPressed && controller.isGrounded && !PlayerManager.playerCameraMovement.lockedOn)
+        {
+            SM.TransitionState(PlayerStates.AIM_GRAPPLE);
+            return;
+        }
 
     }
 }

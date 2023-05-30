@@ -25,7 +25,8 @@ public class PlayerControllerStateMachine : MonoBehaviour
     [SerializeField] private PlayerStates curPlayerStateFlag = PlayerStates.NONE;//current state the player is in flag (mainly for check what state the player is in so you dont have to use gettype)
     private PlayerState curPlayerState;// the state the player is currently in
 
-    [SerializeField] private bool DrawGizmos = true;//whether to draw a player hitbox gizmo
+    [Tooltip("Whether to draw a player hitbox gizmo")]
+    [SerializeField] private bool DrawGizmos = true;
 
 
     private void Start()
@@ -115,6 +116,10 @@ public class PlayerControllerStateMachine : MonoBehaviour
                 curPlayerState = new PlayerStateRoll();
                 curPlayerState.Initialize(GetSMData(), oldHorMotion);
                 break;
+            case PlayerStates.AIM_GRAPPLE:
+                curPlayerState = new PlayerStateAimGrapple();
+                curPlayerState.Initialize(GetSMData());
+                break;
         }
         
         curPlayerStateFlag = newState;//set flag of new state
@@ -151,7 +156,8 @@ public enum PlayerStates
     FALL,
     HARD_LAND,
     ROLL,
-    ATTACK
+    ATTACK,
+    AIM_GRAPPLE
 }
 
 public struct PlayerStateMachineData

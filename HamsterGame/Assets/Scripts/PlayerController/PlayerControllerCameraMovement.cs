@@ -29,7 +29,7 @@ public class PlayerControllerCameraMovement : MonoBehaviour
     [Tooltip("how far away a locked on target can be before you cant lock on/ lock on disengages")]
     public float lockOnRange = 35f;
 
-    private Transform actualCamera;// the transform of the actual camera object 
+    public Transform actualCamera { get; private set; }// the transform of the actual camera object 
 
     [SerializeField] private LockOnTarget lockedOnComponent;//the lockOnTarget component of the locked on target
 
@@ -44,6 +44,8 @@ public class PlayerControllerCameraMovement : MonoBehaviour
     [SerializeField] private Vector3 farCameraPos;
 
     [SerializeField] private float cameraZoomSpeed;
+
+    private bool clampCamera = true;//whether or not to clamp the cameras rotation
 
     private void Start()
     {
@@ -250,7 +252,10 @@ public class PlayerControllerCameraMovement : MonoBehaviour
         else
         {
             Vector3 vecRot = transform.localEulerAngles + new Vector3(movement.y, movement.x, 0);
-            vecRot = ClampCameraXRot(vecRot, upperBound, lowerBound);
+            if (clampCamera)
+            {
+                vecRot = ClampCameraXRot(vecRot, upperBound, lowerBound);
+            }
             transform.rotation = Quaternion.Euler(vecRot);
         }
 
@@ -301,7 +306,10 @@ public class PlayerControllerCameraMovement : MonoBehaviour
         return lockedOnTarget;
     }
 
-   
+    public void SetClampCamera(bool setting)
+    {
+        clampCamera = setting;
+    }
 }
 
 public enum CamPositionPreset {

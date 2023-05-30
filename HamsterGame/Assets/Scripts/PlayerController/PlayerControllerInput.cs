@@ -23,7 +23,7 @@ public class PlayerControllerInput : MonoBehaviour
 
     public bool jumpPressed
     {
-        get { return spacePressed; } 
+        get { return spacePressed; }
         set { spacePressed = value; }
     }
 
@@ -38,6 +38,13 @@ public class PlayerControllerInput : MonoBehaviour
     public bool tabPressed = false;
 
     public bool middleMousePressed { get; private set; } = false;
+
+    public bool rightMouseHeld { get; private set; } = false;
+    public bool aimPressed 
+    {
+        get { return rightMouseHeld; }
+        set { aimPressed = value; }
+    }
 
     public void Update()
     {
@@ -57,6 +64,7 @@ public class PlayerControllerInput : MonoBehaviour
         leftMousePressed = Input.GetMouseButton(0);
         tabPressed= Input.GetKeyDown(KeyCode.Tab);
         middleMousePressed = Input.GetMouseButtonDown(2);
+        rightMouseHeld = Input.GetMouseButton(1);
     }
 
     private void GetMovementInput()

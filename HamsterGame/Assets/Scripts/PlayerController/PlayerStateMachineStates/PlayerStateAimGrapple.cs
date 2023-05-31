@@ -5,10 +5,12 @@ using UnityEngine.Rendering;
 
 public class PlayerStateAimGrapple : PlayerState
 {
-    private const float MAX_GRAPPLE_DISTANCE = 25f;
+    private const float MAX_GRAPPLE_DISTANCE = 25f;//make sure to change in GrappleMove now
     private const float AIM_WALK_SPEED = 4f;
     private const float BLEND_RATE = 6f;
     private const float TURN_SPEED = 10f;
+
+    private bool hookedTarget = false;
 
     public override void OnStateEnter()
     {
@@ -45,13 +47,13 @@ public class PlayerStateAimGrapple : PlayerState
         SetBodyDirection(PlayerManager.playerControllerInput.moveInput);
 
         RaycastHit hitInfo;
-        if (PlayerManager.playerControllerInput.aimPressed)
+        if (PlayerManager.playerControllerInput.attackPressed)//if you right click while holding left click
         {
             bool hit = Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);// place a mask onto this when it becomes necessary
-            Debug.Log(hit);
-            if (hit)
+            //Debug.Log(hit);
+            if (hit && hitInfo.collider.CompareTag("Grapplable"))
             {
-
+                hookedTarget = true;
             }
         }
         
@@ -59,6 +61,12 @@ public class PlayerStateAimGrapple : PlayerState
 
     public override void TransitionCheck()
     {
+        if (hookedTarget)
+        {
+            SM.TransitionState(PlayerStates.GRAPPLE_MOVE);
+            return;
+        }
+
         if (!controller.isGrounded)
         {
             SM.TransitionState(PlayerStates.FALL);

@@ -54,6 +54,10 @@ public class PlayerStateHardLand : PlayerState
     {
         base.Initialize(SMData, previousStateHorMotion, previousStateVertMotion);
         horizontalMotion = previousStateHorMotion;
+        if (horizontalMotion.sqrMagnitude == 0)
+        {
+            horizontalMotion = playerBody.forward * ROLL_SPEED;
+        }
         verticalMotion = previousStateVertMotion;
     }
 }

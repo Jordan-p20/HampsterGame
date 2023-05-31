@@ -120,6 +120,10 @@ public class PlayerControllerStateMachine : MonoBehaviour
                 curPlayerState = new PlayerStateAimGrapple();
                 curPlayerState.Initialize(GetSMData());
                 break;
+            case PlayerStates.GRAPPLE_MOVE:
+                curPlayerState = new PlayerStateGrappleMove();
+                curPlayerState.Initialize(GetSMData());
+                break;
         }
         
         curPlayerStateFlag = newState;//set flag of new state
@@ -157,7 +161,8 @@ public enum PlayerStates
     HARD_LAND,
     ROLL,
     ATTACK,
-    AIM_GRAPPLE
+    AIM_GRAPPLE,
+    GRAPPLE_MOVE
 }
 
 public struct PlayerStateMachineData

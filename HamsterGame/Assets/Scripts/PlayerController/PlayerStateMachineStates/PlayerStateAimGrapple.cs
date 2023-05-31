@@ -24,9 +24,15 @@ public class PlayerStateAimGrapple : PlayerState
     {
         PlayerManager.playerCameraMovement.ChangeCameraSetting(CamPositionPreset.Medium);
         anim.SetBool("inLocomotionState", false);
-        anim.SetBool("isLockedOn", false);
+        if (!PlayerManager.playerCameraMovement.lockedOn)
+        {
+            anim.SetBool("isLockedOn", false);
+        }
         MainUIManager.instance.HideAimReticle();
         PlayerManager.playerCameraMovement.SetClampCamera(true);//might change this to change the clamp settings rather than turning it off but this works for now even tho its a little jank
+        anim.SetFloat("locomotionBlend", 0);
+        anim.SetFloat("locomotionBlendX", 0);
+        anim.SetFloat("locomotionBlendY", 0);
     }
 
     public override void StateUpdate()

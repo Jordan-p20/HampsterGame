@@ -113,7 +113,7 @@ public class PlayerStateWalk : PlayerState
         {
             anim.SetFloat("locomotionBlend", Mathf.Lerp(anim.GetFloat("locomotionBlend"), 1, BLEND_RATE * Time.deltaTime));
         }
-        else if (playerSpeed == WALK_SPEED && motion.magnitude > 0)
+        else if ((playerSpeed == WALK_SPEED || playerSpeed == LOCK_ON_SPEED) && motion.magnitude > 0)
         {
             anim.SetFloat("locomotionBlend", Mathf.Lerp(anim.GetFloat("locomotionBlend"), 0.5f, BLEND_RATE * Time.deltaTime));
         }

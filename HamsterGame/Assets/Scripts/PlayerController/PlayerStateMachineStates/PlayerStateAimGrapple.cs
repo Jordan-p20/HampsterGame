@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerStateAimGrapple : PlayerState
 {
@@ -10,7 +11,7 @@ public class PlayerStateAimGrapple : PlayerState
     private const float BLEND_RATE = 6f;
     private const float TURN_SPEED = 10f;
 
-    private bool hookedTarget = false;
+    private GameObject grappleProjectile = null;
 
     public override void OnStateEnter()
     {
@@ -39,53 +40,79 @@ public class PlayerStateAimGrapple : PlayerState
 
     public override void StateUpdate()
     {
-        horizontalMotion = GetHorizontalMotion();
+        
+        if (grappleProjectile != null)
+        {
+            horizontalMotion = Vector3.zero;
+            SetAnimatorMotionParameters(horizontalMotion, Vector3.zero);
+            SetBodyDirection(Vector3.zero);
+        }
+        else
+        {
+            horizontalMotion = GetHorizontalMotion();
+            SetAnimatorMotionParameters(horizontalMotion, PlayerManager.playerControllerInput.moveInput);
+            SetBodyDirection(PlayerManager.playerControllerInput.moveInput);
+        }
+        
         verticalMotion = Vector3.up * GRAVITY * 0.15f;
 
         controller.Move((verticalMotion + (horizontalMotion * AIM_WALK_SPEED)) * Time.deltaTime);
-        SetAnimatorMotionParameters(horizontalMotion, PlayerManager.playerControllerInput.moveInput);
-        SetBodyDirection(PlayerManager.playerControllerInput.moveInput);
+        
 
+        ThrowGrappleCheck();
+    }
+
+    private void ThrowGrappleCheck()
+    {
         RaycastHit hitInfo;
-        if (PlayerManager.playerControllerInput.attackPressed)//if you right click while holding left click
+        if (PlayerManager.playerControllerInput.attackPressed && grappleProjectile == null)//if you right click while holding left click
         {
-            bool hit = Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);// place a mask onto this when it becomes necessary
+            grappleProjectile = MiscPrefabSpawnManager.instance.GetNewPrefabGO(MiscPrefab.GrappleProjectile);
+            bool hit = Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);
+            if (hit)
+            {
+                Vector3 direction = (hitInfo.point - (playerBody.position + controller.center)).normalized;
+                grappleProjectile.transform.rotation = Quaternion.LookRotation(direction);
+                grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
+
+            }
+            else
+            {
+                grappleProjectile.transform.rotation = PlayerManager.playerCameraMovement.actualCamera.rotation;
+                grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
+            }
+            grappleProjectile.GetComponent<GrappleProjectile>().Initialize(playerBody, controller.center, SM);
+            /*bool hit = Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);// place a mask onto this when it becomes necessary
             //Debug.Log(hit);
             if (hit && hitInfo.collider.CompareTag("Grapplable"))
             {
                 hookedTarget = true;
-            }
+            }*/
         }
-        
     }
 
     public override void TransitionCheck()
     {
-        if (hookedTarget)
-        {
-            SM.TransitionState(PlayerStates.GRAPPLE_MOVE);
-            return;
-        }
-
         if (!controller.isGrounded)
         {
             SM.TransitionState(PlayerStates.FALL);
             return;
         }
 
-        if (PlayerManager.playerControllerInput.attackPressed && controller.isGrounded)
-        {
-            SM.TransitionState(PlayerStates.ATTACK);
-            return;
-        }
+        //might want this but kinda doesnt work cuz of pressing lMouse to throw grapple so ill take it out until we have a solution for control scheme
+        //if (PlayerManager.playerControllerInput.attackPressed && controller.isGrounded)
+        //{
+        //    SM.TransitionState(PlayerStates.ATTACK);
+        //    return;
+        //}
 
-        if (PlayerManager.playerControllerInput.jumpPressed && controller.isGrounded)
+        if (PlayerManager.playerControllerInput.jumpPressed && controller.isGrounded && grappleProjectile == null)
         {
             SM.TransitionState(PlayerStates.JUMP);
             return;
         }
 
-        if (!PlayerManager.playerControllerInput.aimPressed || !controller.isGrounded || PlayerManager.playerCameraMovement.lockedOn)
+        if ((!PlayerManager.playerControllerInput.aimPressed || PlayerManager.playerCameraMovement.lockedOn) && grappleProjectile == null)
         {
             SM.TransitionState(PlayerStates.WALK);
             return;

@@ -137,9 +137,14 @@ public class PlayerControllerStateMachine : MonoBehaviour
         return new PlayerStateMachineData(SMCharaController, SMCharacterAnimator, playerBody, this, animTableLengths);
     }
 
-    public PlayerStates GetCurrentState()
+    public PlayerStates GetCurrentStateFlag()
     {
         return curPlayerStateFlag;
+    }
+
+    public PlayerState GetCurrentPlayerState()
+    {
+        return curPlayerState;
     }
 
     public void OnDrawGizmos()

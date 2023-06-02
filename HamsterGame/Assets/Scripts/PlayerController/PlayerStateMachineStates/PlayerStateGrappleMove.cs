@@ -16,8 +16,8 @@ public class PlayerStateGrappleMove : PlayerState
 
     public override void OnStateEnter()
     {
-        Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);
-        travelDirection = (hitInfo.point - (controller.transform.position + controller.center)).normalized;
+        //Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);
+        //travelDirection = (hitInfo.point - (controller.transform.position + controller.center)).normalized;
     }
 
     public override void OnStateExit()
@@ -47,5 +47,10 @@ public class PlayerStateGrappleMove : PlayerState
         }
 
 
+    }
+
+    public void GiveGrapplePoint(Vector3 grapplePointLocation)
+    {
+        travelDirection = (grapplePointLocation - (controller.transform.position + controller.center)).normalized;
     }
 }

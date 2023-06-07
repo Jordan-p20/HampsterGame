@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static UnityEngine.GraphicsBuffer;
@@ -45,61 +46,66 @@ public class PlayerStateAimGrapple : PlayerState
     {
 
         anim.SetLayerWeight(1, Mathf.Lerp(anim.GetLayerWeight(1), 1, Time.deltaTime * BLEND_RATE));
+        
+        
 
         if (grappleProjectile != null)
         {
             horizontalMotion = Vector3.zero;
             SetAnimatorMotionParameters(horizontalMotion, Vector3.zero);
             SetBodyDirection(Vector3.zero);
+            
         }
         else
         {
             horizontalMotion = GetHorizontalMotion();
             SetAnimatorMotionParameters(horizontalMotion, PlayerManager.playerControllerInput.moveInput);
             SetBodyDirection(PlayerManager.playerControllerInput.moveInput);
+            
         }
         
         verticalMotion = Vector3.up * GRAVITY * 0.15f;
 
         controller.Move((verticalMotion + (horizontalMotion * AIM_WALK_SPEED)) * Time.deltaTime);
         
-
-        ThrowGrappleCheck();
-    }
-
-    private void ThrowGrappleCheck()
-    {
-        RaycastHit hitInfo;
         if (PlayerManager.playerControllerInput.attackPressed && grappleProjectile == null)//if you right click while holding left click
         {
-            grappleProjectile = MiscPrefabSpawnManager.instance.GetNewPrefabGO(MiscPrefab.GrappleProjectile);
-            bool hit = Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);
-            if (hit)
-            {
-                Vector3 direction = (hitInfo.point - (playerBody.position + controller.center)).normalized;
-                grappleProjectile.transform.rotation = Quaternion.LookRotation(direction);
-                grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
-
-            }
-            else
-            {
-                grappleProjectile.transform.rotation = PlayerManager.playerCameraMovement.actualCamera.rotation;
-                grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
-            }
-            grappleProjectile.GetComponent<GrappleProjectile>().Initialize(playerBody, controller.center, SM);
-            /*bool hit = Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);// place a mask onto this when it becomes necessary
-            //Debug.Log(hit);
-            if (hit && hitInfo.collider.CompareTag("Grapplable"))
-            {
-                hookedTarget = true;
-            }*/
+            anim.SetBool("GrappleThrow", true);
         }
+        
+    }
+
+    public void ThrowGrappleCheck()
+    {
+        RaycastHit hitInfo;
+        grappleProjectile = MiscPrefabSpawnManager.instance.GetNewPrefabGO(MiscPrefab.GrappleProjectile);
+        bool hit = Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);
+        if (hit)
+        {
+            Vector3 direction = (hitInfo.point - (playerBody.position + controller.center)).normalized;
+            grappleProjectile.transform.rotation = Quaternion.LookRotation(direction);
+            grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
+
+        }
+        else
+        {
+            grappleProjectile.transform.rotation = PlayerManager.playerCameraMovement.actualCamera.rotation;
+            grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
+        }
+        grappleProjectile.GetComponent<GrappleProjectile>().Initialize(playerBody, controller.center, SM);
+        //anim.SetBool("GrappleThrow", false);
+    }
+
+    public void ResetGrappleAnimation()
+    {
+        anim.SetBool("GrappleThrow", false);
     }
 
     public override void TransitionCheck()
     {
         if (!controller.isGrounded)
         {
+            ResetGrappleAnimation();
             SM.TransitionState(PlayerStates.FALL);
             return;
         }
@@ -113,12 +119,14 @@ public class PlayerStateAimGrapple : PlayerState
 
         if (PlayerManager.playerControllerInput.jumpPressed && controller.isGrounded && grappleProjectile == null)
         {
+            ResetGrappleAnimation();
             SM.TransitionState(PlayerStates.JUMP);
             return;
         }
 
         if ((!PlayerManager.playerControllerInput.aimPressed || PlayerManager.playerCameraMovement.lockedOn) && grappleProjectile == null)
         {
+            ResetGrappleAnimation();
             SM.TransitionState(PlayerStates.WALK);
             return;
         }

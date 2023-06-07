@@ -49,6 +49,11 @@ public class PlayerStateGrappleMove : PlayerState
 
     }
 
+    public void ResetGrappleAnimation()
+    {
+        anim.SetBool("GrappleThrow", false);
+    }
+
     public void GiveGrapplePoint(Vector3 grapplePointLocation)
     {
         travelDirection = (grapplePointLocation - (controller.transform.position + controller.center)).normalized;

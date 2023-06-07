@@ -61,8 +61,14 @@ public class GrappleProjectile : MonoBehaviour
 
         if (elapsedTravelTime >= maxTravelTime)
         {
-            Debug.Break();//for testing max distance
-            //Destroy(this.gameObject);
+            //reset grapple
+            rb.velocity = Vector3.zero;
+            if (SM.GetCurrentStateFlag() == PlayerStates.AIM_GRAPPLE)
+            {
+                PlayerStateAimGrapple state = (PlayerStateAimGrapple)SM.GetCurrentPlayerState();
+                state.ResetGrappleAnimation();
+            }
+            Destroy(this.gameObject);
         }
     }
 
@@ -84,11 +90,17 @@ public class GrappleProjectile : MonoBehaviour
             SM.TransitionState(PlayerStates.GRAPPLE_MOVE);
             PlayerStateGrappleMove state = (PlayerStateGrappleMove)SM.GetCurrentPlayerState();
             state.GiveGrapplePoint(collision.GetContact(0).point);
+            state.ResetGrappleAnimation();
             Destroy(this.gameObject);
             return;
         }
         else
         {
+            if (SM.GetCurrentStateFlag() == PlayerStates.AIM_GRAPPLE)
+            {
+                PlayerStateAimGrapple state = (PlayerStateAimGrapple)SM.GetCurrentPlayerState();
+                state.ResetGrappleAnimation();
+            }
             Destroy(this.gameObject);
         }
     }

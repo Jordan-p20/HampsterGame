@@ -21,6 +21,7 @@ public class PlayerStateAimGrapple : PlayerState
         MainUIManager.instance.ShowAimReticle();
         PlayerManager.playerCameraMovement.SetClampCamera(false);
         
+        
     }
 
     public override void OnStateExit()
@@ -36,11 +37,15 @@ public class PlayerStateAimGrapple : PlayerState
         anim.SetFloat("locomotionBlend", 0);
         anim.SetFloat("locomotionBlendX", 0);
         anim.SetFloat("locomotionBlendY", 0);
+        anim.SetLayerWeight(1,0);
+        
     }
 
     public override void StateUpdate()
     {
-        
+
+        anim.SetLayerWeight(1, Mathf.Lerp(anim.GetLayerWeight(1), 1, Time.deltaTime * BLEND_RATE));
+
         if (grappleProjectile != null)
         {
             horizontalMotion = Vector3.zero;

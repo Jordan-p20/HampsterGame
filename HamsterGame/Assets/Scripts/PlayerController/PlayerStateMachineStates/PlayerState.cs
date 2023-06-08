@@ -17,6 +17,8 @@ public abstract class PlayerState
     protected Transform playerBody;//reference to the transform of the players body
     protected PlayerControllerStateMachine SM;// reference to this states state machine
     protected Dictionary<string, float> animLengths;//dictionary of all animations and their lengths
+    protected Transform rightHandTracker;
+    protected Transform leftHandTracker;
     public Vector3 horizontalMotion { get; protected set; }// the horizontal motion of this state
     public Vector3 verticalMotion { get; protected set; }// the vertical motion of this state
 
@@ -28,6 +30,8 @@ public abstract class PlayerState
         playerBody = SMData.dataBody;
         SM = SMData.stateMachine;
         animLengths = SMData.dataAnimLengths;
+        rightHandTracker = SMData.limbData.rightHand;
+        leftHandTracker = SMData.limbData.leftHand;
     }
 
     //called when creating a new state to initialize references, overload with the previous states horizontal movement
@@ -38,6 +42,8 @@ public abstract class PlayerState
         playerBody = SMData.dataBody;
         SM = SMData.stateMachine;
         animLengths = SMData.dataAnimLengths;
+        rightHandTracker = SMData.limbData.rightHand;
+        leftHandTracker = SMData.limbData.leftHand;
     }
 
     //called when creating a new state to initialize references, overload with the previous states horiontal and vertical movement
@@ -48,6 +54,8 @@ public abstract class PlayerState
         playerBody = SMData.dataBody;
         SM = SMData.stateMachine;
         animLengths = SMData.dataAnimLengths;
+        rightHandTracker = SMData.limbData.rightHand;
+        leftHandTracker = SMData.limbData.leftHand;
     }
 
     //called when transitioning into this state

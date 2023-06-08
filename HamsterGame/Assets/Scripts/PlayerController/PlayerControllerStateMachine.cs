@@ -14,6 +14,9 @@ public class PlayerControllerStateMachine : MonoBehaviour
     private PlayerControllerInput playerInput;// input reference
 
     [SerializeField] private CharacterController SMCharaController;//serialized for debug drawing doesnt need to be for actual play
+
+    [SerializeField] private Transform rightHand;
+    [SerializeField] private Transform leftHand;
     
     private Animator SMCharacterAnimator;//animator
 
@@ -134,7 +137,7 @@ public class PlayerControllerStateMachine : MonoBehaviour
     //returns a struct of references states might need to be initialized with
     public PlayerStateMachineData GetSMData()
     {
-        return new PlayerStateMachineData(SMCharaController, SMCharacterAnimator, playerBody, this, animTableLengths);
+        return new PlayerStateMachineData(SMCharaController, SMCharacterAnimator, playerBody, this, animTableLengths, rightHand, leftHand);
     }
 
     public PlayerStates GetCurrentStateFlag()
@@ -172,13 +175,15 @@ public enum PlayerStates
 
 public struct PlayerStateMachineData
 {
-    public PlayerStateMachineData(CharacterController SMController, Animator SMAnimator, Transform body, PlayerControllerStateMachine sm, Dictionary<string, float> animLengths)
+    public PlayerStateMachineData(CharacterController SMController, Animator SMAnimator, Transform body, PlayerControllerStateMachine sm, Dictionary<string, float> animLengths, Transform rh, Transform lh)
     {
         dataCharaController = SMController;
         dataAnimator = SMAnimator;
         dataBody = body;
         stateMachine = sm;
         dataAnimLengths = animLengths;
+        limbData.leftHand = lh;
+        limbData.rightHand = rh;
     }
 
     public CharacterController dataCharaController;
@@ -186,4 +191,17 @@ public struct PlayerStateMachineData
     public Transform dataBody;
     public PlayerControllerStateMachine stateMachine;
     public Dictionary<string, float> dataAnimLengths;
+    public PlayerLimbData limbData;
+}
+
+public struct PlayerLimbData
+{
+    public PlayerLimbData(Transform rh, Transform lh)
+    {
+        rightHand = rh;
+        leftHand = lh;
+    }
+
+    public Transform rightHand;
+    public Transform leftHand;
 }

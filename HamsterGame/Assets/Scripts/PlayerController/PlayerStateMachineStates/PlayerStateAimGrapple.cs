@@ -75,25 +75,27 @@ public class PlayerStateAimGrapple : PlayerState
         
     }
 
-    public void ThrowGrappleCheck()
+    public void ThrowGrapple()
     {
         RaycastHit hitInfo;
         grappleProjectile = MiscPrefabSpawnManager.instance.GetNewPrefabGO(MiscPrefab.GrappleProjectile);
         bool hit = Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);
         if (hit)
         {
-            Vector3 direction = (hitInfo.point - (playerBody.position + controller.center)).normalized;
+            Vector3 direction = (hitInfo.point - (rightHandTracker.position)).normalized;
             grappleProjectile.transform.rotation = Quaternion.LookRotation(direction);
-            grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
+            //grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
+            grappleProjectile.transform.position = rightHandTracker.position;
 
         }
         else
         {
             grappleProjectile.transform.rotation = PlayerManager.playerCameraMovement.actualCamera.rotation;
-            grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
+            //grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
+            grappleProjectile.transform.position = rightHandTracker.position;
         }
-        grappleProjectile.GetComponent<GrappleProjectile>().Initialize(playerBody, controller.center, SM);
-        //anim.SetBool("GrappleThrow", false);
+        grappleProjectile.GetComponent<GrappleProjectile>().Initialize(rightHandTracker, Vector3.zero, SM);
+        
     }
 
     public void ResetGrappleAnimation()

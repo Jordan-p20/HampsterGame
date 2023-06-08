@@ -7,6 +7,6 @@ public class PlayerControllerAnimationEventHelper : MonoBehaviour
     public void SpawnGrappleProjectile()
     {
         PlayerStateAimGrapple state = (PlayerStateAimGrapple)PlayerManager.playerTransform.GetComponent<PlayerControllerStateMachine>().GetCurrentPlayerState();
-        state.ThrowGrappleCheck();
+        state.ThrowGrapple();
     }
 }

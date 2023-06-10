@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerStateJump : PlayerState
 {
@@ -8,7 +9,7 @@ public class PlayerStateJump : PlayerState
 
     private float elapsedJumpTime = 0f;//how long the jump state has been active
     private float jumpAnimLength;// how long the animation is
-
+    private const float BLEND_RATE = 6f;//how fast the animations blend
 
     public override void OnStateEnter()
     {
@@ -24,6 +25,7 @@ public class PlayerStateJump : PlayerState
 
     public override void StateUpdate()
     {
+        anim.SetLayerWeight(1, Mathf.Lerp(anim.GetLayerWeight(1), 0, BLEND_RATE * Time.deltaTime));
         verticalMotion += Vector3.up * GRAVITY * Time.deltaTime;
 
 

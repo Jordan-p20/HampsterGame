@@ -38,7 +38,6 @@ public class PlayerStateAimGrapple : PlayerState
         anim.SetFloat("locomotionBlend", 0);
         anim.SetFloat("locomotionBlendX", 0);
         anim.SetFloat("locomotionBlendY", 0);
-        anim.SetLayerWeight(1,0);
         
     }
 
@@ -83,16 +82,12 @@ public class PlayerStateAimGrapple : PlayerState
         if (hit)
         {
             Vector3 direction = (hitInfo.point - (rightHandTracker.position)).normalized;
-            grappleProjectile.transform.rotation = Quaternion.LookRotation(direction);
-            //grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
-            grappleProjectile.transform.position = rightHandTracker.position;
+            grappleProjectile.transform.SetPositionAndRotation(rightHandTracker.position, Quaternion.LookRotation(direction));
 
         }
         else
         {
-            grappleProjectile.transform.rotation = PlayerManager.playerCameraMovement.actualCamera.rotation;
-            //grappleProjectile.transform.position = playerBody.transform.position + grappleProjectile.transform.forward + controller.center;
-            grappleProjectile.transform.position = rightHandTracker.position;
+            grappleProjectile.transform.SetPositionAndRotation(rightHandTracker.position, PlayerManager.playerCameraMovement.actualCamera.rotation);
         }
         grappleProjectile.GetComponent<GrappleProjectile>().Initialize(rightHandTracker, Vector3.zero, SM);
         

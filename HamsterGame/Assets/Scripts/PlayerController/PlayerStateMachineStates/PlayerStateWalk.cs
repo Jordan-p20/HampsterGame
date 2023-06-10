@@ -59,6 +59,7 @@ public class PlayerStateWalk : PlayerState
     //returns the motion of the character given inputs
     private Vector3 GetMotion()
     {
+        anim.SetLayerWeight(1, Mathf.Lerp(anim.GetLayerWeight(1), 0, BLEND_RATE * Time.deltaTime));
         UpdateVerticalMotion();
         UpdateHorizontalMotion();
         return (horizontalMotion + verticalMotion) * Time.deltaTime;

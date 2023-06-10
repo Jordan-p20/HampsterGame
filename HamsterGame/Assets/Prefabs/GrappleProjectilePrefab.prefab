@@ -135,7 +135,7 @@ MonoBehaviour:
   ropeStartPoint: {fileID: 484805640697408122}
   projectileInitialSpeed: 25
   projectileSpeedIncreaseRate: 8
-  maxTravelTime: 0.5
+  maxTravelTime: 1.3
 --- !u!54 &4232009456369530355
 Rigidbody:
   m_ObjectHideFlags: 0

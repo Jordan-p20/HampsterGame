@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerStateHardLand : PlayerState
 {
@@ -8,6 +9,7 @@ public class PlayerStateHardLand : PlayerState
     private float animLength;//the animation length of this state
     private const float ROLL_SPEED = 5f;//the speed how the roll horizontally, change into multiple stages depending on animation, might work to add root motion to animator instead
     private bool isRolling = false;// whether the player is rolling
+    private const float BLEND_RATE = 6f;//how fast the animations blend
 
     public override void OnStateEnter()
     {
@@ -32,6 +34,7 @@ public class PlayerStateHardLand : PlayerState
 
     public override void StateUpdate()
     {
+        anim.SetLayerWeight(1, Mathf.Lerp(anim.GetLayerWeight(1), 0, BLEND_RATE * Time.deltaTime));
         elapsedTime += Time.deltaTime;
 
         if (isRolling)

@@ -19,8 +19,6 @@ public class PlayerStateGrappleMove : PlayerState
 
     public override void OnStateEnter()
     {
-        //Physics.Raycast(PlayerManager.playerCameraMovement.actualCamera.position, PlayerManager.playerCameraMovement.actualCamera.forward, out hitInfo, MAX_GRAPPLE_DISTANCE);
-        //travelDirection = (hitInfo.point - (controller.transform.position + controller.center)).normalized;
         anim.SetBool("GrappleMove", true);
     }
 
@@ -34,11 +32,9 @@ public class PlayerStateGrappleMove : PlayerState
     {
         if (playerBody != default)
         {
-            playerBody.forward = Vector3.Lerp(playerBody.forward, travelDirection, Time.deltaTime * BLEND_RATE);
+            playerBody.forward = Vector3.MoveTowards(playerBody.forward, travelDirection, Time.deltaTime * BLEND_RATE);
         }
         
-
-        Debug.DrawRay(playerBody.position, travelDirection * 10, Color.red, 0.1f);
         currentMoveSpeed += GRAPPLE_SPEED_RATE * Time.deltaTime;
         controller.Move(travelDirection * currentMoveSpeed * Time.deltaTime);
     }

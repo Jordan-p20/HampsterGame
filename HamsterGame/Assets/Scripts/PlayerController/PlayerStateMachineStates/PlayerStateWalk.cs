@@ -28,6 +28,8 @@ public class PlayerStateWalk : PlayerState
 
     public override void StateUpdate()
     {
+        anim.SetLayerWeight(1, Mathf.MoveTowards(anim.GetLayerWeight(1), 0, Time.deltaTime));
+
         //set correct speed
         if (controller.isGrounded)
         {

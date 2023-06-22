@@ -23,6 +23,13 @@ public class PlayerStateAttack : PlayerState
     public override void StateUpdate()
     {
         elapsedTime += Time.deltaTime;
+
+        if (PlayerManager.playerCameraMovement.lockedOn)//moves the player towards their locked target when attacking, will also need a raycast to determine if its required to move towards them
+        {
+            Vector3 target = PlayerManager.playerCameraMovement.GetLockOnTarget().position;
+            target.y = PlayerManager.playerTransform.position.y;
+            PlayerManager.playerTransform.position = Vector3.MoveTowards(PlayerManager.playerTransform.position, target, Time.deltaTime * 2);
+        }
     }
 
     public override void TransitionCheck()

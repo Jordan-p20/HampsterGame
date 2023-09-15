@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerStateAttack : PlayerState
 {
@@ -8,6 +9,7 @@ public class PlayerStateAttack : PlayerState
     private float elapsedTime = 0f;//how long the state has been active fr
     private int combo = 1;// how many times the player has attacked in a row
     private const int maxCombo = 3;// the max amount of times the player can attack in a row
+    private float moveTowardsTargetTreshold = 1.5f;
 
     public override void OnStateEnter()
     {
@@ -23,10 +25,9 @@ public class PlayerStateAttack : PlayerState
     public override void StateUpdate()
     {
         elapsedTime += Time.deltaTime;
-
-        if (PlayerManager.playerCameraMovement.lockedOn)//moves the player towards their locked target when attacking, will also need a raycast to determine if its required to move towards them
+        Vector3 target = PlayerManager.playerCameraMovement.GetLockOnTarget().position;
+        if (PlayerManager.playerCameraMovement.lockedOn && Vector3.Distance(PlayerManager.playerTransform.position, target) > moveTowardsTargetTreshold)//moves the player towards their locked target when attacking, will also need a raycast to determine if its required to move towards them
         {
-            Vector3 target = PlayerManager.playerCameraMovement.GetLockOnTarget().position;
             target.y = PlayerManager.playerTransform.position.y;
             PlayerManager.playerTransform.position = Vector3.MoveTowards(PlayerManager.playerTransform.position, target, Time.deltaTime * 2);
         }
